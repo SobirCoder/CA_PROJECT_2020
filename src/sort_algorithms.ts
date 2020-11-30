@@ -1,3 +1,5 @@
+import { numbers } from './test_array';
+
 //comparator interface
 interface IComparable
 {
@@ -39,9 +41,7 @@ function quickSort<T>(items :IElement<T>[], begin :number, end :number) :void
 {
   if (begin >= end) return;
   let smi_index = begin, pivot = items[end];
-  //console.log(begin, end);
-  console.log(JSON.parse(JSON.stringify(items)), pivot.value, begin, end);
-  
+
   for (let i = begin; i < end; i++)
   {
     if (items[i].compare(pivot) === -1)
@@ -51,45 +51,37 @@ function quickSort<T>(items :IElement<T>[], begin :number, end :number) :void
     }
   }
   pivot.swap(items[smi_index]);
-  count++;
-  if (count == 15) return;
 
   quickSort(items, begin, smi_index - 1);
   quickSort(items, smi_index + 1, end);
 }
 
-let items :NumberItem[] = [NumberItem.create(2), NumberItem.create(-2), NumberItem.create(20), NumberItem.create(1),
-  NumberItem.create(12), NumberItem.create(6), NumberItem.create(-6), NumberItem.create(68), NumberItem.create(56), 
-  NumberItem.create(-60)];
-//2,-2, 20, 1, 12, 6
-let count = 0;
-//  quickSort(items, 0, items.length - 1);
-//  console.log(items);
-
  function mergeSort<T>(items :IElement<T>[], begin :number, end :number) :IElement<T>[]
  {
    if (begin == end) return [items[begin]];
    let middle = begin + Math.floor( (end - begin) / 2);
-   
+
    let front :IElement<T>[] = mergeSort(items, begin, middle);
    let rear  :IElement<T>[] = mergeSort(items, middle + 1, end);
-  
+
    let newArr :IElement<T>[] = [], idx = 0;
   for (let i = 0; i < front.length; i++)
   {
     while (idx < rear.length && front[i].compare(rear[idx]) == 1)
       newArr.push(rear[idx++]);
-      
+
     newArr.push(front[i]);
   }
 
   if (rear.length != idx)
     newArr.splice(newArr.length, 0, ...rear.slice(idx, rear.length));
-  
+
   return newArr;
  }
 
+let items :NumberItem[] = [];
+
+for (let nm of numbers)
+  items.push(NumberItem.create(nm));
 
 console.log(mergeSort(items, 0, items.length - 1));
-
- 
