@@ -1,4 +1,4 @@
-import { numbers } from './test_array';
+import { numbers } from './test_array.js';
 
 //comparator interface
 interface IComparable
@@ -84,4 +84,11 @@ let items :NumberItem[] = [];
 for (let nm of numbers)
   items.push(NumberItem.create(nm));
 
-console.log(mergeSort(items, 0, items.length - 1));
+console.time('merge sort');
+console.log(JSON.parse(JSON.stringify(mergeSort(items, 0, items.length - 1))));
+console.timeEnd('merge sort');
+
+console.time('quick sort');
+quickSort(items, 0, items.length - 1);
+console.log(items);
+console.timeEnd('quick sort');
