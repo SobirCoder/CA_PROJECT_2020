@@ -1,40 +1,5 @@
 import { numbers } from './test_array.js';
-
-//comparator interface
-interface IComparable
-{
-  compare(obj :IComparable) :number;
-}
-
-interface IElement<T> extends IComparable
-{
-  value :T;
-  swap(other :IElement<T>) :void;
-}
-
-class NumberItem implements IElement<number>
-{
-  constructor(public value :number){}
-
-  compare(obj :IElement<number>) :number
-  {
-    if (this.value == obj.value) return 0;
-    else if (this.value > obj.value) return 1;
-    else if (this.value < obj.value) return -1;
-    else throw new Error();
-  }
-
-  swap(other :IElement<number>)
-  {
-    let temp :number;
-    temp = this.value;
-    this.value = other.value;
-    other.value = temp;
-  }
-
-  static create<T>(value :number) { return new NumberItem(value); }
-}
-
+import {IElement, NumberItem} from './elems.js';
 //QuickSort algorithm
 
 function quickSort<T>(items :IElement<T>[], begin :number, end :number) :void
@@ -84,11 +49,12 @@ let items :NumberItem[] = [];
 for (let nm of numbers)
   items.push(NumberItem.create(nm));
 
-console.time('merge sort');
-console.log(JSON.parse(JSON.stringify(mergeSort(items, 0, items.length - 1))));
-console.timeEnd('merge sort');
+// console.time('merge sort');
+// console.log(JSON.parse(JSON.stringify(mergeSort(items, 0, items.length - 1))));
+// console.timeEnd('merge sort');
 
-console.time('quick sort');
-quickSort(items, 0, items.length - 1);
-console.log(items);
-console.timeEnd('quick sort');
+// console.time('quick sort');
+// quickSort(items, 0, items.length - 1);
+// console.log(items);
+// console.timeEnd('quick sort');
+
