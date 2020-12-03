@@ -22,6 +22,7 @@ export class Node<T> implements IElement<T>
   public value :T;
   public right_child? :Node<T>;
   public left_child?  :Node<T>;
+  public parent?  :Node<T>;
   public color? :NodeColor;
 
  constructor(val :T)
