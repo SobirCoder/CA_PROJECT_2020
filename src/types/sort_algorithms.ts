@@ -11,11 +11,11 @@ function quickSort<T>(items :IElement<T>[], begin :number, end :number) :void
   {
     if (items[i].compare(pivot) === -1)
     {
-      items[i].swap(items[smi_index]);
+      items[i].swap!(items[smi_index]);
       smi_index++;
     }
   }
-  pivot.swap(items[smi_index]);
+  pivot.swap!(items[smi_index]);
 
   quickSort(items, begin, smi_index - 1);
   quickSort(items, smi_index + 1, end);

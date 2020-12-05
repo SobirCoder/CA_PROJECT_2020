@@ -39,6 +39,11 @@ export class Node<T> implements IElement<T>
    else
      return 0;
  }
+
+ static create<T>(val :T)
+ {
+    return new Node(val);
+ }
 }
 
 export class NumberItem implements IElement<number>
