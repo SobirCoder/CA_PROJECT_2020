@@ -17,7 +17,7 @@ class redBlackTree<T>
 
   private check(node :Node<T>)
   {
-    console.log(node.value);
+    // console.log(node.value);
     if (node.parent?.color == NodeColor.RED)
     {
       let grandParent = node.parent?.parent;
@@ -25,7 +25,7 @@ class redBlackTree<T>
       //parent in the left
       if (grandParent?.left_child == node.parent)
       {
-        console.log('left_child', node.parent.value);
+        // console.log('left_child', node.parent.value);
         let uncle = grandParent?.right_child;
         if (uncle == undefined || uncle.color == NodeColor.BLACK)
         {
@@ -39,17 +39,13 @@ class redBlackTree<T>
                 bigDaddy.right_child = node.parent;
             }
             node.parent.color = NodeColor.BLACK;
-            let parent_right_child = node.parent.right_child;
+            if (grandParent!.left_child = node.parent.right_child)
+              grandParent!.left_child.parent = grandParent;
             node.parent.right_child = grandParent;
             grandParent.parent = node.parent;
             node.parent.parent = bigDaddy;
             grandParent.color = NodeColor.RED;
             if (grandParent == this.root) this.root = node.parent;
-            grandParent!.left_child = undefined;
-            if (parent_right_child != undefined) {
-              console.log('insert: ', parent_right_child, 'root: ', this.root);
-              this.insert(parent_right_child!);
-            }
           }
           else
           {
@@ -74,7 +70,7 @@ class redBlackTree<T>
           uncle.color = NodeColor.BLACK;
           node.parent.color = NodeColor.BLACK;
           if (grandParent != this.root) grandParent.color = NodeColor.RED;
-          console.log('check grandParent', grandParent!.value);
+          console.log('check grandParent', grandParent!.value, grandParent!.color);
           this.check(grandParent!);
         }
       } else//parent in the right
@@ -98,6 +94,7 @@ class redBlackTree<T>
             node.right_child = node.parent;
             node.parent!.left_child = undefined;
             node.color = NodeColor.BLACK;
+            grandParent!.right_child = undefined;
           }
           else
           {
@@ -109,20 +106,19 @@ class redBlackTree<T>
                 bigDaddy.right_child = node.parent;
             }
             node.parent.color = NodeColor.BLACK;
-            let parent_left_child = node.parent.left_child;
+            if (grandParent!.right_child = node.parent.left_child)
+              grandParent!.right_child!.parent = grandParent;
             node.parent.left_child = grandParent;
             node.parent.parent = bigDaddy;
             grandParent!.parent = node.parent;
             grandParent!.color = NodeColor.RED;
-            if (parent_left_child != undefined)
-              this.insert(parent_left_child!);
           }
-          grandParent!.right_child = undefined;
+
         } else {
           uncle.color = NodeColor.BLACK;
           node.parent.color = NodeColor.BLACK;
           if (grandParent != this.root) grandParent!.color = NodeColor.RED;
-          console.log('check grandParent', grandParent!.value);
+          console.log('check grandParent rr', grandParent!.value);
           this.check(grandParent!);
         }
       }

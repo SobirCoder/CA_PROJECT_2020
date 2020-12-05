@@ -12,11 +12,14 @@ tr.insert(Node.create(87));
 tr.insert(Node.create(35));
 tr.insert(Node.create(25));
 tr.insert(Node.create(15));
+
 tr.insert(Node.create(1));
 tr.insert(Node.create(2));
 tr.insert(Node.create(3));
 tr.insert(Node.create(39));
 tr.insert(Node.create(38));
+tr.insert(Node.create(27));
+tr.insert(Node.create(78));
 
 
 
