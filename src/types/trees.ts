@@ -1,4 +1,4 @@
-import { Node, NodeColor } from './elems.js';
+import { Node, NodeColor, NodeSide } from './elems.js';
 //red-black tree
 class redBlackTree<T>
 {
@@ -136,7 +136,7 @@ class redBlackTree<T>
       let temp :any = this.root;
       while(true)
       {
-        if (temp.value > item.value)
+        if (temp.value >= item.value)
         {
           if (temp.left_child == undefined)
           {
@@ -160,9 +160,118 @@ class redBlackTree<T>
       this.check(item);
     }
   }
+  private del_node(dlt :Node<T>) {
+    if (dlt.parent) {
+      if (dlt == dlt.parent.left_child)
+        return dlt.parent.left_child == undefined, NodeSide.LEFT;
+      else
+        return dlt.parent.right_child == undefined, NodeSide.RIGHT;
+    } else {
+      return this.root = undefined, null;
+    }
+  }
 
-  delete(item :Node<T>)
+  private setChild(parent :Node<T>, child :Node<T>, childDir :NodeSide)
   {
+    child.parent = parent;
+    if (childDir == NodeSide.LEFT) parent.left_child = child;
+    else if (childDir == NodeSide.RIGHT) parent.right_child = child;
+  }
+
+  private checkDelete(nx :Node<T>)
+  {
+    let nxSide :NodeSide;
+    let nw;
+
+    while(!(nx == this.root && nx.color == NodeColor.BLACK))
+    {
+      if (nx == nx.parent!.left_child)
+        nxSide = NodeSide.LEFT;
+      else
+        nxSide = NodeSide.RIGHT;
+
+      if (nxSide == NodeSide.LEFT) {
+         nw = nx.parent!.right_child;
+         if (!nw) continue;
+         if (nw!.color == NodeColor.RED) {
+           nw.color = NodeColor.BLACK;
+           nw.parent!.color = NodeColor.RED;
+           let gp = nw.parent!.parent!;
+           this.setChild(nw.parent!, nw.left_child!, NodeSide.RIGHT);
+           this.setChild(nw, nw.parent!, NodeSide.LEFT);
+           this.setChild(gp, nw, gp.left_child == nw.parent ? NodeSide.LEFT : NodeSide.RIGHT);
+           nw = nx.parent!.right_child;
+         }
+      } else if (nxSide == NodeSide.RIGHT) {
+        nw = nx.parent!.left_child;
+        if (!nw) continue;
+        if (nw!.color == NodeColor.RED) {
+           nw.color = NodeColor.BLACK;
+           nw.parent!.color = NodeColor.RED;
+           let gp = nw.parent!.parent!;
+           this.setChild(nw.parent!, nw.right_child!, NodeSide.LEFT);
+           this.setChild(nw, nw.parent!, NodeSide.RIGHT);
+           this.setChild(gp, nw, gp.left_child == nw.parent ? NodeSide.LEFT : NodeSide.RIGHT);
+           nw = nx.parent!.left_child;
+        }
+      }
+
+
+    }
+  }
+
+  delete(value :T)
+  {
+    let deleted;
+    if (!this.root || this.root.value == value)
+    {
+      deleted = this.root;
+    } else {
+      deleted = this.root!;
+      while(deleted)
+      {
+        if (deleted.value > value) {
+          if (!deleted.left_child || deleted.left_child.value == value)
+              break;
+          deleted = deleted.left_child!;
+        }
+        else {
+          if (!deleted.right_child || deleted.right_child.value == value)
+              break;
+          deleted = deleted.right_child!;
+        }
+      }
+
+      if (!deleted) return;
+
+      let color = deleted.color;
+      let delSideParent = this.del_node(deleted);
+      let nx :Node<T>;
+      if (deleted.left_child == null) {
+        if (deleted.right_child) {
+          nx = deleted.right_child;
+          this.setChild(deleted.parent!, deleted.right_child, delSideParent!);
+        }
+      } else if (deleted.right_child == null) {
+        if (deleted.left_child) {
+          nx = deleted.left_child;
+          this.setChild(deleted.parent!, deleted.left_child, delSideParent!);
+        }
+      } else {
+        nx = deleted.right_child;
+        while(nx.left_child)
+          nx = nx.left_child;
+        this.setChild(nx.parent!, nx.right_child!, 'left');
+        this.setChild(deleted.parent!, nx, delSideParent!);
+        nx.right_child = deleted.right_child;
+        nx.left_child = deleted.left_child;
+        nx.color = color;
+      }
+
+      if (color == NodeColor.BLACK)
+        this.checkDelete(nx!);
+
+    }
   }
 
   get()

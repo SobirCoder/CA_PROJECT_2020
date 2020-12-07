@@ -17,6 +17,12 @@ export enum NodeColor
     RED
 }
 
+export enum NodeSide
+{
+  RIGHT,
+  LEFT
+}
+
 export class Node<T> implements IElement<T>
 {
   public value :T;
