@@ -21,10 +21,17 @@ tr.insert(Node.create(38));
 tr.insert(Node.create(27));
 tr.insert(Node.create(78));
 
+console.log(tr.get());
+
+tr.delete(78);
+
+console.log(tr.get());
+
+tr.delete(25);
+
+console.log(tr.get());
 
 
-let root = tr.get();
-console.log(root);
 // console.log('root: ' + root!.value);
 // console.log('lc: ' + root!.left_child!.value);
 // console.log('rc: ' + root!.right_child!.value);
