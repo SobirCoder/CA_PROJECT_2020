@@ -1,23 +1,23 @@
-class adjacenNode<TValue>
+class adjacentNode<TValue>
 {
   constructor(public weight :number, public value :TValue) {}
 
   public static create<T>(weight :number, value :T)
   {
-    return new adjacenNode(weight, value);
+    return new adjacentNode(weight, value);
   }
 }
 
 class vertex<TValue>
 {
-  constructor(public value :TValue, public adjacentNodes :adjacenNode<TValue>[]) {}
+  constructor(public value :TValue, public adjacentNodes :adjacentNode<TValue>[]) {}
 
   addAdjacentNode(weight :number, value :TValue)
   {
-    this.adjacentNodes.push(adjacenNode.create(weight, value));
+    this.adjacentNodes.push(adjacentNode.create(weight, value));
   }
 
-  static create<T>(val :T, adjacentNodes :adjacenNode<T>[])
+  static create<T>(val :T, adjacentNodes :adjacentNode<T>[])
   {
     return new vertex(val, adjacentNodes || []);
   }
@@ -60,16 +60,42 @@ class vertex<TValue>
 function mst_prim<T>(vertices :vertex<T>[])
 {
   let mst :vertex<T>[] = [],
-    possibleEdges :[T, T, number][];
+    possibleEdges :[T, T, number][] = [], index;
+
+  mst.push(vertex.create(vertices[0].value, []));
 
   while (mst.length != vertices.length)
   {
-    let node = mst[mst.length - 1] || vertices[0];
-    let rnd = vertices.find(vx => vx.value == node.value)!;
+    let node = mst[mst.length - 1];
+    let curr_node = vertices.find(vx => vx.value == node.value)!;
+    let aval_nodes = [...possibleEdges,
+      ...curr_node.adjacentNodes.map(nd => [curr_node.value, nd.value, nd.weight])];
 
-    let nextNode = rnd.adjacentNodes.filter(vx => !mst.some(v => v.value == vx.value))
-                      .push();
+    while(true)
+    {
+      let next = aval_nodes.find(nd => nd[2] == Math.min(...aval_nodes.map(x => Number(x[2]))))!;
+
+      if (mst.find(x => x.value == next[1]))
+      {
+        aval_nodes.splice(aval_nodes.findIndex(x => x[0] == next[0] && x[1] == next[1]), 1);
+        continue;
+      }
+
+      next = aval_nodes.find(nd => nd[2] == Math.min(...aval_nodes.map(x => Number(x[2]))))!;
+
+      if((index = possibleEdges.findIndex(x => x[0] == next[0] && x[1] == next[1])) != -1)
+        possibleEdges.splice(index, 1);
+
+      let nextNode = vertices.find(x => x.value == next[1])!;
+      node.addAdjacentNode(Number(next[2]), nextNode.value);
+      possibleEdges.splice(possibleEdges.length, 0,
+        ...nextNode.adjacentNodes.map(nd => [nextNode.value, nd.value, nd.weight]))
+      mst.push(vertex.create(nextNode.value, []));
+      break;
+    }
   }
+
+  console.log(mst);
 }
 
-export { vertex, adjacenNode };
+export { vertex, adjacentNode, mst_prim };
