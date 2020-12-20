@@ -1,10 +1,10 @@
-import { vertex, adjacentNode, mst_prim } from './types/graph.js';
+import { vertex, adjacentNode, mst_prim, findNearestPath } from './types/graph.js';
 
 let vxs :vertex<string>[] = [];
 
 
 
-vxs.push(vertex.create('a', [adjacentNode.create(4, 'b'), adjacentNode.create(4, 'h')]));
+vxs.push(vertex.create('a', [adjacentNode.create(4, 'b'), adjacentNode.create(8, 'h')]));
 vxs.push(vertex.create('b', [adjacentNode.create(4, 'a'), adjacentNode.create(11, 'h'),
                               adjacentNode.create(8, 'c')]));
 vxs.push(vertex.create('h', [adjacentNode.create(8, 'a'), adjacentNode.create(11, 'b'),
@@ -19,16 +19,17 @@ vxs.push(vertex.create('d', [adjacentNode.create(7, 'c'), adjacentNode.create(14
                               adjacentNode.create(9, 'e')]));
 vxs.push(vertex.create('f', [adjacentNode.create(4, 'c'), adjacentNode.create(14, 'd'),
                               adjacentNode.create(2, 'g'), adjacentNode.create(10, 'e')]));
-vxs.push(vertex.create('e', [adjacentNode.create(9, 'd'), adjacentNode.create(10, 'e')]));
+vxs.push(vertex.create('e', [adjacentNode.create(9, 'd'), adjacentNode.create(10, 'f')]));
 
-mst_prim(vxs);
+// console.log(mst_prim(vxs));
+
+let path :adjacentNode<string>[] = [];
+console.log(vxs);
+
+findNearestPath(vxs[0], vxs[vxs.length - 1], vxs, path);
 
 
-
-
-
-
-
+console.log(path);
 
 // vxs.push(vertex.create(1, [2, 0]));
 // vxs.push(vertex.create(0, [1, 2, 2]));
