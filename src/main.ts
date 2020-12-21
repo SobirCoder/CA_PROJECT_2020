@@ -4,7 +4,8 @@ let vxs :vertex<string>[] = [];
 
 
 
-vxs.push(vertex.create('a', [adjacentNode.create(4, 'b'), adjacentNode.create(8, 'h')]));
+vxs.push(vertex.create('a', [adjacentNode.create(4, 'b'), adjacentNode.create(8, 'h'),
+                            adjacentNode.create(5, 'k')]));
 vxs.push(vertex.create('b', [adjacentNode.create(4, 'a'), adjacentNode.create(11, 'h'),
                               adjacentNode.create(8, 'c')]));
 vxs.push(vertex.create('h', [adjacentNode.create(8, 'a'), adjacentNode.create(11, 'b'),
@@ -19,7 +20,9 @@ vxs.push(vertex.create('d', [adjacentNode.create(7, 'c'), adjacentNode.create(14
                               adjacentNode.create(9, 'e')]));
 vxs.push(vertex.create('f', [adjacentNode.create(4, 'c'), adjacentNode.create(14, 'd'),
                               adjacentNode.create(2, 'g'), adjacentNode.create(10, 'e')]));
-vxs.push(vertex.create('e', [adjacentNode.create(9, 'd'), adjacentNode.create(10, 'f')]));
+vxs.push(vertex.create('e', [adjacentNode.create(9, 'd'), adjacentNode.create(10, 'f'),
+                            adjacentNode.create(3, 'k')]));
+vxs.push(vertex.create('k', [adjacentNode.create(5, 'a'), adjacentNode.create(3, 'e')]));
 
 // console.log(mst_prim(vxs));
 

@@ -105,7 +105,7 @@ function findNearestPath<T>(from :vertex<T>, to :vertex<T>, vertices :vertex<T>[
   // console.log(from);
    if (from.value == to.value)
    {
-    console.log('done', from.value);
+    // console.log('done', from.value);
     return;
    }
 
@@ -127,9 +127,12 @@ function findNearestPath<T>(from :vertex<T>, to :vertex<T>, vertices :vertex<T>[
   }
   // console.log('pre_path', paths, 'from', from.value);
   // paths = paths.filter(pt => !pt.some(p => !p));
-  
-  if (paths.length == 0) { console.log(path); path.splice(0, path.length);
-   return; }
+
+  if (paths.length == 0)
+  {
+    path.splice(0, path.length);
+    return;
+  }
 
   let path_total_lengths :number[] = [];
   for (let ph of paths) {
@@ -138,9 +141,9 @@ function findNearestPath<T>(from :vertex<T>, to :vertex<T>, vertices :vertex<T>[
   }
 
   // console.log('path_total_lengths',path_total_lengths, 'paths', paths,'path', path, 'from', from.value);
-  if (from.value == 'a')
-    console.log('paths', paths, 'path', JSON.parse(JSON.stringify(path)));
-    
+  // if (from.value == 'a')
+  //   console.log('paths', paths, 'path', JSON.parse(JSON.stringify(path)));
+
   path.splice(path.length, 0,
     ...paths[path_total_lengths.findIndex(p => p == Math.min(...path_total_lengths))]);
 }
