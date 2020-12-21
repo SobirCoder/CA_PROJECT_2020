@@ -109,7 +109,7 @@ function findNearestPath<T>(from :vertex<T>, to :vertex<T>, vertices :vertex<T>[
     return;
    }
 
-  if (from.adjacentNodes.every(x => path.some(v => v.value == x.value))){
+  if (from.adjacentNodes.every(x => path.some(v => v.value == x.value))) {
     return path.splice(0, path.length);
   }
 
@@ -121,12 +121,15 @@ function findNearestPath<T>(from :vertex<T>, to :vertex<T>, vertices :vertex<T>[
     newPath = [...path, nd];
 
     findNearestPath<T>(vertices.find(x => x.value == nd.value)!, to, vertices, newPath);
-    console.log('nd', nd.value, 'newPath',newPath, 'from', from.value, 'path', path);
+    // console.log('nd', nd.value, 'newPath',newPath, 'from', from.value, 'path', path);
     if (newPath.length) paths.push(newPath.filter(p => !path.some(v => v.value == p.value)));
     // break;
   }
   // console.log('pre_path', paths, 'from', from.value);
-  paths = paths.filter(pt => !pt.some(p => !p));
+  // paths = paths.filter(pt => !pt.some(p => !p));
+  
+  if (paths.length == 0) { console.log(path); path.splice(0, path.length);
+   return; }
 
   let path_total_lengths :number[] = [];
   for (let ph of paths) {
@@ -134,9 +137,10 @@ function findNearestPath<T>(from :vertex<T>, to :vertex<T>, vertices :vertex<T>[
     path_total_lengths.push(ph.reduce((memo, x) => memo + x.weight, 0));
   }
 
-  // path.splice(path.length, 0,
-  //   ...paths[path_total_lengths.findIndex(p => p == Math.min(...path_total_lengths))]);
-  console.log('path_total_lengths',path_total_lengths, 'paths', paths,'path', path, 'from', from.value);
+  // console.log('path_total_lengths',path_total_lengths, 'paths', paths,'path', path, 'from', from.value);
+  if (from.value == 'a')
+    console.log('paths', paths, 'path', JSON.parse(JSON.stringify(path)));
+    
   path.splice(path.length, 0,
     ...paths[path_total_lengths.findIndex(p => p == Math.min(...path_total_lengths))]);
 }
